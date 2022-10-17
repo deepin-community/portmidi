@@ -1,0 +1,139 @@
+portmidi (1:217-6) unstable; urgency=medium
+
+  * debian/*.{links,dirs} removed old symlinks (closes: #848618)
+
+ -- Paul Brossier <piem@debian.org>  Mon, 19 Dec 2016 10:41:04 +0100
+
+portmidi (1:217-5) unstable; urgency=medium
+
+  * Fix FTCBFS: Let dh_auto_* pass cross tools (closes: #845814), thanks to
+    Helmut Grohne
+  * debian/rules: simplify, build for multiarch, use dh_auto_*
+  * debian/control: make libportmidi0 multiarch, bump debhelper to 10.2.1
+  * debian/patches/00_cmake.diff: use CMAKE_INSTALL_LIBDIR
+  * debian/patches/13-disablejni.patch: use CMAKE_INSTALL_LIBDIR
+  * debian/patches/00_cmake.diff: include(GNUInstallDirs) for multiarch
+  * debian/patches/30-porttime_cmake.diff: use CMAKE_INSTALL_LIBDIR
+  * debian/*.install: use multiarch
+
+ -- Paul Brossier <piem@debian.org>  Mon, 28 Nov 2016 11:31:33 +0100
+
+portmidi (1:217-4) unstable; urgency=medium
+
+  * debian/control: switch Architecture to linux-any (closes: #654187)
+  * debian/rules: clean up, append CPPFLAGS to CXXFLAGS
+  * debian/patches/03_pm_test_Makefile.diff: added mm, also clean *.o
+  * debian/patches/50-change_assert.diff: change assert to if() return;
+  * debian/patches/51-remove_assert.diff: change assert to if() return;
+  * Upload to unstable (closes: #739567, #699162)
+
+ -- Paul Brossier <piem@debian.org>  Mon, 14 Nov 2016 18:02:24 +0100
+
+portmidi (1:217-3) experimental; urgency=medium
+
+  * debian/libportmidi-dev.examples: use moved Makefile
+  * debian/patches/03_pm_test_Makefile.diff: prevent cmake overwriting this file
+  * debian/patches/20-movetest.diff: compile with hardening
+  * debian/patches/21-hardentests.diff: compile tests with hardening
+  * debian/rules: fix typo, remove old cruft
+
+ -- Paul Brossier <piem@debian.org>  Mon, 14 Nov 2016 11:50:33 +0100
+
+portmidi (1:217-2) experimental; urgency=medium
+
+  * Merge in portmidi_1:200-1ubuntu3
+  * debian/rules: use cmake, dpkg-buildflags, and debhelper 8
+  * debian/patches/00_cmake.diff: add SONAME, fix install location
+  * debian/patches/02_pmlinuxalsa.diff: merge with upstream
+  * debian/patches/03_pm_test_Makefile.diff: new file
+  * debian/patches/11-pmlinuxalsa.diff: merge eol chars with upstream
+  * debian/patches/13-disablejni.diff: disable java for now
+  * debian/patches/20-movetes.diff: rename pm_test/test.c to simple_test.c
+  * debian/patches/30-porttime_cmake.diff: add porttime/CMakeLists.txt
+  * debian/patches/40-test_sysex.diff: minor fixes to avoid warnings
+  * debian/patches/41-pm_linux.diff: minor fixes to avoid warnings
+  * debian/patches/05_makefile.diff: lp:1110326, not merged, using cmake
+  * debian/patches/12-disable_pmcheckerrors.patch: #765375, dropped for cmake
+  * debian/rules: compile in Release mode (closes lp:1097286)
+  * debian/source/format: added 3.0 (quilt)
+  * Upload to experimental.
+
+ -- Paul Brossier <piem@debian.org>  Sun, 06 Nov 2016 21:13:50 +0100
+
+portmidi (1:217-1) experimental; urgency=medium
+
+  * New upstream version 217.
+  * Upload to experimental.
+
+ -- Paul Brossier <piem@debian.org>  Sun, 06 Nov 2016 16:33:35 +0100
+
+portmidi (1:184-2.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Disable PM_CHECK_ERRORS PortMidi as it is a debugging option which
+    unconditionally calls exit(-1) on any error. It should rather delegate
+    the responsibility of error handling to the client application.
+    Thanks to RJ Ryan for pointing this out. (Closes: #765375)
+
+ -- Alessio Treglia <alessio@debian.org>  Tue, 14 Oct 2014 16:12:56 +0100
+
+portmidi (1:184-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * debian/patches/11-pmlinuxalsa.patch:
+    - Avoid SIGSEGV when it receives data for devices which
+      might have already been closed. (Closes: #695842)
+    - Fix some other pointer issues:
+      + alsa_in_close() didn't clear midi-descriptor.
+      + Some other uses of midi->descriptor didn't do NULL-check of
+        the pointer.
+
+ -- Alessio Treglia <alessio@debian.org>  Thu, 13 Dec 2012 14:22:08 +0000
+
+portmidi (1:184-2) unstable; urgency=low
+
+  * Add -lpthread to ALSALIB (closes: #556070) 
+
+ -- Paul Brossier <piem@debian.org>  Fri, 13 Nov 2009 15:26:46 +0100
+
+portmidi (1:184-1) unstable; urgency=low
+
+  * New upstream release. 
+  * Update patches where merged with upstream, disable pmdefautls for now
+
+ -- Paul Brossier <piem@debian.org>  Fri, 30 Oct 2009 13:41:33 +0100
+
+portmidi (1:131-1) unstable; urgency=low
+
+  * New upstream version, uses epoch (closes: #501132)
+  * debian/watch: update to match new download location and version
+    numbering (closes: #450055), but still fails due to zip format
+  * Add depends on quilt, move patches to debian/patches
+  * Add Homepage to debian/control
+  * debian/control: use ${binary:Version}, bump to S-V 3.8.3
+  * debian/compat: bump to 5
+  * debian/copyright: update to match license.txt and add missing copyrights
+  * debian/patches/02_pmlinuxalsa.diff: remove merged hunks
+  * debian/patches/04_ptlinux.diff: remove merged hunks
+  * debian/patches/05_makefile.diff: merge and link portmidi to porttime,
+    thanks to Willem van Engen (closes: #515712)
+  * debian/rules: use pm_linux/Makefile, ship CHANGELOG.txt and make sure
+    source and header files are not executable
+  * debian/README.source: refer to quilt documentation
+  * debian/libportmidi-dev.install: do not try to install unexisting files
+  * debian/patches/{06_pm_test_mm,07_pm_test_sysex,08_pm_test_qtest}.diff:
+    get rid of missing include and parenthesis, fix long int formatting
+  * debian/rules: do not compress header files
+
+ -- Paul Brossier <piem@debian.org>  Wed, 16 Sep 2009 06:50:57 +0200
+
+portmidi (20041117-1) unstable; urgency=low
+
+  * Initial release (closes: #280656)
+  * Add shared libraries and installation target to Makefile, add
+    pm_test/Makefile for examples/.
+  * Patch pm_linuxalsa_term as suggested by Predrag Viceic, freecycle author.
+  * Minor fixes to prevent compilation warnings.
+
+ -- Paul Brossier <piem@debian.org>  Tue, 27 Sep 2005 02:04:20 +0100
+

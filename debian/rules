@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+
+CPPFLAGS:=$(shell dpkg-buildflags --get CPPFLAGS)
+CFLAGS:=$(shell dpkg-buildflags --get CFLAGS) $(CPPFLAGS)
+CXXFLAGS:=$(shell dpkg-buildflags --get CXXFLAGS) $(CPPFLAGS)
+LDFLAGS:=$(shell dpkg-buildflags --get LDFLAGS)
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+%:
+	dh $@ --parallel --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+	 -DCMAKE_BUILD_TYPE="Release" \
+	 -DCMAKE_INSTALL_LIBDIR=/usr/lib/${DEB_HOST_MULTIARCH} \
+	 -DCMAKE_CACHEFILE_DIR=$(CURDIR)/build
+
+override_dh_auto_clean:
+	dh_auto_clean
+	-rm -rf build/
+
+override_dh_auto_install:
+	chmod a-x $(CURDIR)/pm_test/*.c $(CURDIR)/pm_common/*.h
+	dh_auto_install
+
+override_dh_compress:
+	dh_compress -X.c -X.h -XMakefile

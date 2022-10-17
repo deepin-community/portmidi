@@ -1,0 +1,26 @@
+Source: portmidi
+Priority: optional
+Maintainer: Paul Brossier <piem@debian.org>
+Build-Depends: debhelper (>= 10.2.1), cmake, libasound2-dev
+Standards-Version: 3.9.8
+Homepage: http://portmedia.sourceforge.net/
+Section: libs
+Vcs-Git: https://anonscm.debian.org/git/collab-maint/portmidi.git
+Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/portmidi.git/
+
+Package: libportmidi-dev
+Section: libdevel
+Architecture: linux-any
+Depends: libportmidi0 (= ${binary:Version}), ${misc:Depends}
+Description: library for real-time MIDI input/output
+ PortMidi is a platform independent library for MIDI input/output.
+ This package provides the header files for PortMidi and PortTime.
+
+Package: libportmidi0
+Section: libs
+Architecture: linux-any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: library for real-time MIDI input/output
+ PortMidi is a platform independent library for MIDI input/output.
+ This package provide the PortMidi and PortTime libraries.

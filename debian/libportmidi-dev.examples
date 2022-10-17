@@ -1,0 +1,4 @@
+pm_test/*.c
+pm_test/debian/Makefile
+pm_common/pminternal.h
+pm_common/pmutil.h
